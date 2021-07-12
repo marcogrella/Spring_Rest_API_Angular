@@ -1,27 +1,38 @@
 import { AppConstants } from './../app-constants';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginServiceService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
-  login(usuario){
-     return this.http.post(AppConstants.baseLogin, JSON.stringify(usuario)).subscribe(data => {
-       /* corpo do retorno http */
+  login(usuario) {
 
-       /* se o login estiver correto recebemos um token. Utilizamos somente o token (sem os profixos) */
-       var token = JSON.parse(JSON.stringify(data)).token.split(' ')[1];
+    console.log("Nome: " + usuario.login +" Senha: "+  usuario.senha)
 
-       /* guardamos em uma variável o token: */
-        localStorage.setItem("token", token);
+    return this.http.post(AppConstants.baseLogin, JSON.stringify(usuario)).subscribe(data => {
 
-     }, error =>{
-          alert("Erro ao realizar o login. Senha ou Usuário inválido.");
-     });
+      /*Retorno Http*/
+
+      var token = JSON.parse(JSON.stringify(data)).token.split(' ')[1];
+
+      localStorage.setItem('token', token);
+
+      console.log(localStorage.getItem('token'))
+
+      this.router.navigate(['userList']);
+
+
+    },
+      error => {
+        console.error("Erro ao fazer login ");
+      }
+    );
   }
 
 }

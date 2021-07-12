@@ -1,19 +1,38 @@
-import { Component } from '@angular/core';
-import { LoginServiceService } from './service/login-service.service';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+
+export class AppComponent implements OnInit{
+
   title = 'Angular Rest';
 
-  usuario = {login:'', senha:''};
+  constructor(private router: Router){}
 
-  constructor(private loginService: LoginServiceService){}
+  /* implementamos o onInit que verifica logo na página inicial se o usuário possui ou não token. Se não redireciona para o login */
+  ngOnInit(): void {
+    if(localStorage.getItem('token') ==null ){
+        this.router.navigate(['login']);
+    }
+  }
 
-  public login(){
-    this.loginService.login(this.usuario);
+  public sair(){
+    localStorage.clear(); /* exclui o token */
+    this.router.navigate(['login']);
+  }
+
+  /* esconde a barra de menu se não tiver token*/
+  public esconderBarra(){
+    if(localStorage.getItem('token') !== null &&
+    localStorage.getItem('token')?.toString().trim() != null){
+     return false;
+    } else{
+      return true;
+    }
   }
 }

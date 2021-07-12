@@ -1,0 +1,31 @@
+<br/>
+<br/>
+<form class="form-inline mr-sm-0">
+  <input class="form-control mr-sm-2" type="text" id="nome" name="nome" [(ngModel)]="nome" placeholder="Digite um nome">
+  <button type="button" (click)="consultarUser()" class="btn btn-primary">Consultar</button>
+  <button class="button-cadastrar btn btn-success" type="button" [routerLink]="['/usuarioAdd']" routerLinkActive="router-link-active">Cadastrar</button>
+</form>
+<br/>
+<br/>
+<table class="table table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Nome</th>
+      <th scope="col">CPF</th>
+      <th scope="col">CEP</th>
+      <th scope="col">Delete</th>
+      <th scope="col">Editar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let student of students ">
+      <td>{{student.id}}</td>
+      <td>{{student.nome}}</td>
+      <td>{{student.cpf | mask:'000.000.000-00'}}</td>
+      <td>{{student.cep}}</td>
+      <td><button (click)="deleteUsuario(student.id)" class="btn btn-danger">Excluir</button></td>
+      <td><button  [routerLink]="['/usuarioAdd', student.id]" routerLinkActive="router-link-active" class="btn btn-warning">Editar</button></td>
+    </tr>
+  </tbody>
+</table>

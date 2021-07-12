@@ -1,0 +1,21 @@
+.titulo {
+  padding: 10px
+}
+
+.formulario{
+  padding:10px
+}
+
+.botoes{
+  margin-left: 10px;
+}
+
+.mandatory{
+  color: red;
+  font-size: 23px;
+}
+
+.tabelaTelefones{
+  margin-left: 5px;
+  
+}

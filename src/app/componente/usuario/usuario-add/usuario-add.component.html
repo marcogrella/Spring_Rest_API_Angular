@@ -1,0 +1,87 @@
+<h3 class="titulo">Tela de Usuário</h3>
+<form class="formulario" #formValidate="ngForm">
+
+  <div class="form-row">
+    <div class="form-group col-md-1">
+      <label for="id">ID</label>
+      <input type="text" [(ngModel)]="usuario.id" class="form-control" id="id" name="id" readonly="true" autocomplete="false" >
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-5">
+      <label for="nome">Nome</label>
+      <input type="text" class="form-control" [(ngModel)]="usuario.nome" #nomeValidate="ngModel" id="nome" required="true" name="nome" autocomplete="false" required="true">
+      <span class="mandatory" *ngIf="nomeValidate.invalid"> * </span>
+    </div>
+    <div class="form-group col-md-5">
+      <label for="login">Login</label>
+      <input type="text" class="form-control" [(ngModel)]="usuario.login" id="login" required="true" name="login" autocomplete="false" required="true" #loginValidate="ngModel" >
+      <span class="mandatory" *ngIf="loginValidate.invalid"> * </span>
+    </div>
+  </div>
+
+
+  <div class="form-row">
+    <div class="form-group col-md-5">
+      <label for="senha">Senha</label>
+      <input type="password" class="form-control" [(ngModel)]="usuario.senha" id="senha" required="true" name="senha" autocomplete="false" required="true" #senhaValidate="ngModel">
+      <span class="mandatory" *ngIf="senhaValidate.invalid"> * </span>
+    </div>
+    <div class="form-group col-md-5">
+      <label for="cpf">CPF</label>
+      <input type="text" class="form-control" [(ngModel)]="usuario.cpf" id="cpf" required="true" name="cpf" autocomplete="false" required="true" #cpfValidate="ngModel" mask="000.000.000-00">
+      <span class="mandatory" *ngIf="cpfValidate.invalid"> * </span>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-5">
+      <label for="cep">CEP</label>
+      <input type="text" class="form-control" id="cep" [(ngModel)]="usuario.cep" required="true" name="cep" autocomplete="false" required="true" #cepValidate="ngModel" mask="00000-000">
+      <span class="mandatory" *ngIf="cepValidate.invalid"> * </span>
+    </div>
+  </div>
+
+
+
+<div class="card text-dark bg-light mb-3" style="max-width: 100%;">
+  <div class="card-header">
+    <h4 style="text-align: center;">Telefones</h4>
+  </div>
+</div>
+
+<div class="input-group input-group-sm mb-3">
+  <input type="text" class="form-control" style="max-width: 200px;" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" mask="(00) 00000 0000"
+  [(ngModel)]="telefone.numero" id="numero" name="numero">
+  <button type="button" class="botoes btn btn-primary" (click)="addFone()">Adicionar</button>
+</div>
+
+
+  <table class="table tabelaTelefones"  style="max-width: 100%">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Número</th>
+      <th scope="col">Ação</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let fone of usuario.telefones; let i = index">
+        <td>{{fone.id}}</td>
+        <td>{{fone.numero | mask: '(00) 00000-0000'}}</td>
+        <td><button class="botoes btn btn-danger" (click)="deletarTelefone(fone.id, i)">Excluir</button></td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+<div class="form-row">
+  <div class="form-group col-md-5">
+    <button type="button" class="botoes btn btn-primary" [routerLink]="['/userList']">Voltar</button>
+    <button type="button" class="botoes btn btn-primary" (click)="novoUsuario()">Novo</button>
+    <button type="button" class="botoes btn btn-primary" [disabled]= "formValidate.invalid" (click)="salvarUser()">Salvar</button>
+  </div>
+</div>
+</form>
