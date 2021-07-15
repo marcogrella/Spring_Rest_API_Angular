@@ -16,7 +16,7 @@
     </div>
     <div class="form-group col-md-5">
       <label for="login">Login</label>
-      <input type="text" class="form-control" [(ngModel)]="usuario.login" id="login" required="true" name="login" autocomplete="false" required="true" #loginValidate="ngModel" >
+      <input type="email" class="form-control" [(ngModel)]="usuario.login" id="login" required="true" name="login" autocomplete="false" required="true" #loginValidate="ngModel" >
       <span class="mandatory" *ngIf="loginValidate.invalid"> * </span>
     </div>
   </div>
@@ -41,7 +41,42 @@
       <input type="text" class="form-control" id="cep" [(ngModel)]="usuario.cep" required="true" name="cep" autocomplete="false" required="true" #cepValidate="ngModel" mask="00000-000">
       <span class="mandatory" *ngIf="cepValidate.invalid"> * </span>
     </div>
+
+    <div class="form-group col-md-2">
+        <label for="dataNascimento"> Data de Nasc.</label>
+        <span class="mandatory" *ngIf=""> * </span>
+        <div class="input-group">
+          <input name="dataNascimento" type="text"  class="form-control" placeholder="dd/mm/yyyy"
+          ngbDatepicker #dataNascimento="ngbDatepicker" [(ngModel)] = "usuario.dataNascimento"
+          #dataNascimentoValidate="ngModel" id="dataNascimento" required="true"/>
+        <div class="input-group-append">
+          <button class="btn btn-primary" (click)="dataNascimento.toggle()" type="button"></button>
+        </div>
+        </div>
+        <span class="mandatory" *ngIf="dataNascimentoValidate.invalid"> * </span>
+    </div>
+
+    <div class="form-group col-md-3">
+      <label for="profissao">Profissão</label>
+      <span class="mandatory" *ngIf="profissaoValidate.invalid"> * </span>
+      <select [(ngModel)]="usuario.profissao.id" id="profissao" name="profissao"
+      #profissaoValidate="ngModel" class="form-control" required="true">
+        <option [ngValue]="profissao.id" *ngFor="let profissao of profissoes">{{profissao.descricao}}</option>
+      </select>
+    </div>
   </div>
+
+  <div class="form-row">
+    <div class="form-group col-md-2">
+      <label for="salario">Salário</label>
+      <span class="mandatory" *ngIf="salarioValidate.invalid"> * </span>
+      <input type="text" class="form-control" id="salario" [(ngModel)]="usuario.salario" name="salario" #salarioValidate="ngModel"autocomplete="false" currencyMask [options]="{prefix : 'R$', thousands: '.', decimal: ',' }">
+    </div>
+
+
+  </div>
+
+
 
 
 
@@ -85,3 +120,5 @@
   </div>
 </div>
 </form>
+
+
