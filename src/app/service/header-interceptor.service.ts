@@ -41,17 +41,23 @@ export class HeaderInterceptorService implements HttpInterceptor {
    constructor() {}
 
      processarError(error : HttpErrorResponse ){
-       let errorMessage = 'Erro desconhecido';
-       if(error.error instanceof ErrorEvent){
-         console.error(error.error);
-         errorMessage = 'Error: ' + error.error.error;
+
+      let errorMessage = 'Erro desconhecido';
+
+      if(error.error instanceof ErrorEvent){
+         console.error( error.error);
+         errorMessage = 'Erro Aconteceu: ' + error.error.error;
        } else{
-         errorMessage = 'Código' + error.error.code + '\nMensagem: ' + error.error.error
+         if(error.status == 404){
+            errorMessage = "Acesso não autorizado. Faça o login novamente!"
+         } else{
+           errorMessage = 'Código do erro: ' + error.error.code + '\nMensagem: ' + error.error.error
+         }
        }
+
+       console.log("Erro ---------------------------------")
        window.alert(errorMessage)
        return throwError(errorMessage)
-
-
    }
 
 

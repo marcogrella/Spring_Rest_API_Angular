@@ -1,7 +1,7 @@
 import { AppComponent } from './../app.component';
 import { Usuario } from 'src/app/model/usuario';
 import { AppConstants } from './../app-constants';
-import { Observable } from 'rxjs';
+import { Observable, Observer } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -21,14 +21,25 @@ export class UsuarioService {
     return this.http.get<any>(AppConstants.baseUrl) /* chama o contexto utilizando uma requisição do tipo get */
   }
 
+  /* método que recebe uma página e invoca a paginação do lado do spring. */
+  getStudentListPage(pagina): Observable<any>{
+    return this.http.get<any>(AppConstants.baseUrl + 'page/' + pagina ) /* chama o contexto utilizando uma requisição do tipo get */
+  }
+
   deletarUsuario(id: Number): Observable<any>{
     return this.http.delete(AppConstants.baseUrl+id, {responseType: 'text'});
 
   }
 
-  consultarUser(nome: String): Observable<any> {
+  consultarUsuario(nome: String): Observable<any> {
     return this.http.get(AppConstants.baseUrl+"usuarioPorNome/"+nome);
   }
+
+  /* consulta por nome paginado enviando o parâmetro da página */
+  consultarUsuarioPorPaginacao(nome: String, page: Number): Observable<any> {
+    return this.http.get(AppConstants.baseUrl+"usuarioPorNome/" + nome + "/page/"+ page);
+  }
+
 
   getStudentById(id): Observable<any>{
     return this.http.get<any>(AppConstants.baseUrl + id)
@@ -55,4 +66,15 @@ export class UsuarioService {
       return false;
     }
   }
+
+
+  getProfissaoList(): Observable<any>{
+    return this.http.get<any>(AppConstants.getBaseUrlPath())
+  }
+
+  carregarGrafico() : Observable<any> {
+    return this.http.get(AppConstants.baseUrl+'grafico')
+  }
+
+
 }

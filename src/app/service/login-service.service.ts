@@ -1,3 +1,5 @@
+import { Usuario } from 'src/app/model/usuario';
+import { Validators } from '@angular/forms';
 import { AppConstants } from './../app-constants';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -34,5 +36,26 @@ export class LoginServiceService {
       }
     );
   }
+
+  recuperar(login) {
+
+    let usuario =  new Usuario();
+    usuario.login = login;
+
+
+    return this.http.post(AppConstants.getBaseUrlPathRecupear(), usuario).subscribe(data => {
+
+      alert(JSON.parse(JSON.stringify(data)).error);
+
+
+    },
+      error => {
+        console.error("Erro ao recuperar o login");
+        alert('Erro ao recuperar login!')
+      }
+    );
+  }
+
+
 
 }

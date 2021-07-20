@@ -12,18 +12,25 @@ import { HttpInterceptorModule } from './service/header-interceptor.service';
 import { UsuarioComponent } from './componente/usuario/usuario/usuario.component';
 import { UsuarioAddComponent } from './componente/usuario/usuario-add/usuario-add.component';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { NgbPaginationModule, NgbAlertModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxCurrencyModule } from 'ngx-currency';
+import { ChartsModule } from 'ng2-charts';
+import { BarChartComponent } from './componente/bar-chart/bar-chart.component';
+
 
 export const appRouters: Routes = [
 
   {path: 'home', component: HomeComponent, canActivate: [GuardiaoGuard]},
   {path: 'login', component: LoginComponent},
   {path: '', component: LoginComponent},
-  {path: 'userList', component: UsuarioComponent,  canActivate: [GuardiaoGuard]},
+  {path: 'userList', component: UsuarioComponent, canActivate: [GuardiaoGuard]},
 
   /*rotas parecidas, mas condições diferentes, está especificado na tela */
   {path: 'usuarioAdd', component: UsuarioAddComponent,  canActivate: [GuardiaoGuard]},
-  {path: 'usuarioAdd/:id', component: UsuarioAddComponent,  canActivate: [GuardiaoGuard]}
-  /*rotas parecidas, mas condições diferentes, está especificado na tela */
+  {path: 'usuarioAdd/:id', component: UsuarioAddComponent,  canActivate: [GuardiaoGuard]},
+  {path: 'chart', component: BarChartComponent}
 ];
 
 export const routes : ModuleWithProviders = RouterModule.forRoot(appRouters);
@@ -37,8 +44,10 @@ export const optionsMask : Partial<IConfig> | (() => Partial<IConfig>) = {};
     LoginComponent,
     UsuarioComponent,
     UsuarioAddComponent,
+    BarChartComponent,
 
   ],
+
   imports: [
     BrowserModule,
     FormsModule,
@@ -46,7 +55,15 @@ export const optionsMask : Partial<IConfig> | (() => Partial<IConfig>) = {};
     routes,
     HttpInterceptorModule,
     NgxMaskModule.forRoot(optionsMask),
-  ],
+    NgxPaginationModule,
+    NgbPaginationModule,
+    NgbAlertModule,
+    NgbModule,
+    NgxCurrencyModule,
+    ChartsModule
+
+
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

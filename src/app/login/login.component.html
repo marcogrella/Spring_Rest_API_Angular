@@ -1,21 +1,27 @@
 
 <form class="form">
+
   <div>
-    <h3>Login do Sistema</h3>
+    <h1>Login do Sistema</h1>
   </div>
   <div class="form-group">
     <label for="login">Login:</label>
     <input type="email" class="form-control" #email="ngModel" [(ngModel)]="usuario.login" id="login" name="login"   required="true">
       <div *ngIf="email.invalid" class="alert alert-danger">
-        O Login deve ser informado
+        O Login deve ser informado (usuário de demonstração: system)
       </div>
   </div>
   <div class="form-group">
     <label for="senha">Senha:</label>
     <input type="password" class="form-control" #senha="ngModel" [(ngModel)]="usuario.senha" id="senha" name="senha" required="true">
     <div *ngIf="senha.invalid" class="alert alert-danger">
-      A Senha deve ser informada
+      A Senha deve ser informada (senha para usuário system: 12345)
     </div>
   </div>
   <button type="button" [disabled]="email.invalid || senha.invalid" class="btn-primary" (click)="login()">Acessar</button>
+  <button style="margin-left: 10px" type="button" [disabled]="email.invalid" class="btn-warning"
+  (click)="recuperar()">Recuperar Acesso</button>
 </form>
+
+
+
