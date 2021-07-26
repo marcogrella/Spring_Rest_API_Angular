@@ -1,22 +1,31 @@
 export class AppConstants {
 
   public static get baseServidor(): string {
-    return "http://localhost:8080/"
+    return "https://springrest-api.herokuapp.com/"
   }
 
   public static get baseLogin(): string{
-    return this.baseServidor + "springrestapi/login"
+    return this.baseServidor + "login"
   }
 
   public static get baseUrl(): string {
-    return this.baseServidor + "springrestapi/usuario/"
+    return this.baseServidor + "usuario/"
   }
 
   public static getBaseUrlPath() : string {
-    return this.baseServidor + "springrestapi/profissao/"
+    return this.baseServidor + "profissao/"
   }
 
   public static getBaseUrlPathRecupear() : string {
-    return this.baseServidor + "springrestapi/recuperar/"
+    return this.baseServidor + "recuperar/"
   }
+
+  public static getConsultarCep(): string{
+    return this.baseServidor + "usuario/"
+  }
+
+  public static getConsultarLogin(): string{
+    return this.baseServidor + "usuario/"
+  }
+
 }

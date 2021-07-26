@@ -1,11 +1,12 @@
 
 import { Profissao } from './../../../model/profissao';
 import { Component, Injectable, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router'; /* classe necessária para fazer o parâmetro id ser adicionado e ser levado */
+import { ActivatedRoute, Router } from '@angular/router'; /* classe necessária para fazer o parâmetro id ser adicionado e ser levado */
 import { NgbDateAdapter, NgbDateParserFormatter, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { Telefone } from 'src/app/model/telefone';
 import { Usuario } from 'src/app/model/usuario';
 import { UsuarioService } from 'src/app/service/usuario.service';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable()
@@ -32,12 +33,12 @@ export class FormatDateAdapter extends NgbDateAdapter<string>{
 
 
 
-
 @Injectable()
 export class FormataData extends NgbDateParserFormatter{
 
   readonly DELIMITER = '/'; // 01/01/2001
 
+  errorMessage: String ='';
 
   parse(value: string): NgbDateStruct | null {
     if(value){
@@ -90,12 +91,21 @@ export class UsuarioAddComponent implements OnInit {
 
   public profissoes!: Array<Profissao>;
 
-  constructor(private routeActive: ActivatedRoute, private usuarioService: UsuarioService) { }
+  public loginError: Boolean = false;
+  public cpfError: Boolean = false;
+  public cepError: Boolean = false
+  messageError: string = '';
+
+  messageSaveOrUpdatedSuccessful: string = '';
+  public usuarioSavedOrUpdated: Boolean = false;
+
+  constructor(private routeActive: ActivatedRoute, private usuarioService: UsuarioService, private http: HttpClient, private router : Router) { }
 
   ngOnInit(): void {
 
       this.usuarioService.getProfissaoList().subscribe(data => {
       this.profissoes = data;
+      this.usuario.profissao = this.profissoes[0]
     });
 
     let id = this.routeActive.snapshot.paramMap.get('id');
@@ -120,15 +130,70 @@ export class UsuarioAddComponent implements OnInit {
           this.novoUsuario();
         });
 
+        this.messageSaveOrUpdatedSuccessful = "Usuário atualizado com sucesso!";
+
      /* se o id não exista é porque iremos salvar */
      } else{
-        console.info("Salvar" + this.usuario)
         this.usuarioService.salvarUsuaro(this.usuario).subscribe(data => {
           this.novoUsuario();
        });
+          this.messageSaveOrUpdatedSuccessful = "Usuário salvo com sucesso!";
       }
 
+      this.usuarioSavedOrUpdated = true;
+
+      setTimeout(() =>{
+          this.usuarioSavedOrUpdated = false;
+
+      },3000);
+
+
+
+
   }
+
+
+validarCEP(){
+
+  if(this.usuario.cep.length < 8 || this.usuario.cep === null || this.usuario.cep == ''){
+    this.cepError = true;
+    this.messageError = 'Digite um cep válido.'
+    this.usuario.cep = ''
+    setTimeout(() =>{
+      this.cepError = false;
+    },3000);
+
+
+  } else{
+    this.usuarioService.consultaCep(this.usuario.cep).subscribe(data => {
+    let valida : boolean = data;
+      if(valida === false){
+        this.usuario.cep = ''
+        this.cepError = true;
+        this.messageError = 'O CEP digitado é inválido, verifique novamente.'
+      setTimeout(() =>{
+        this.cepError = false;
+    },3000);
+
+    }
+    });
+}
+}
+
+
+validarCPF(){
+
+  let validaCPF: Boolean = this.usuarioService.testaCPF(this.usuario.cpf);
+    if(validaCPF === false){
+      this.cpfError = true;
+      this.messageError= "O CPF é inválido. Verifique novamente."
+      this.usuario.cpf = '';
+      setTimeout(() =>{
+      this.cpfError = false;
+  },3000);
+  }
+}
+
 
     novoUsuario(){
       this.usuario = new Usuario();
@@ -163,4 +228,23 @@ export class UsuarioAddComponent implements OnInit {
     this.telefone = new Telefone();
   }
 
+  validarLogin(){
+    let validaLogin: boolean;
+    this.usuarioService.verificarLogin(this.usuario.login).subscribe(data => {
+      let validaLogin : boolean = data;
+        if(validaLogin == true){
+          this.loginError = true;
+          this.messageError= "O login já existe. Verifique novamente."
+          this.usuario.login = '';
+          setTimeout(() =>{
+          this.loginError = false;
+        },3000);
+      }
+    });
+  }
+
+
+
+
 }
+

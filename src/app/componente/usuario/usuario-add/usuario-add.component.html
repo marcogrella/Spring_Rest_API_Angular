@@ -1,80 +1,100 @@
 <h3 class="titulo">Tela de Usuário</h3>
+  <div class="form-group col-md-3">
+    <div  *ngIf="usuarioSavedOrUpdated" class="alert alert-success box-msg" role="alert">
+         {{messageSaveOrUpdatedSuccessful}}
+    </div>
+  </div>
 <form class="formulario" #formValidate="ngForm">
 
   <div class="form-row">
     <div class="form-group col-md-1">
       <label for="id">ID</label>
-      <input type="text" [(ngModel)]="usuario.id" class="form-control" id="id" name="id" readonly="true" autocomplete="false" >
+      <input type="text" [(ngModel)]="usuario.id" class="form-control" id="id"
+      name="id" readonly="true" autocomplete="false">
     </div>
   </div>
 
   <div class="form-row">
     <div class="form-group col-md-5">
       <label for="nome">Nome</label>
-      <input type="text" class="form-control" [(ngModel)]="usuario.nome" #nomeValidate="ngModel" id="nome" required="true" name="nome" autocomplete="false" required="true">
       <span class="mandatory" *ngIf="nomeValidate.invalid"> * </span>
+      <input type="text" class="form-control" [(ngModel)]="usuario.nome" #nomeValidate="ngModel" id="nome" required="true" name="nome" autocomplete="false" required="true" maxlength="60">
+
     </div>
     <div class="form-group col-md-5">
       <label for="login">Login</label>
-      <input type="email" class="form-control" [(ngModel)]="usuario.login" id="login" required="true" name="login" autocomplete="false" required="true" #loginValidate="ngModel" >
       <span class="mandatory" *ngIf="loginValidate.invalid"> * </span>
+      <input type="email" class="form-control" [(ngModel)]="usuario.login" id="login" required="true" name="login" autocomplete="false" required="true" #loginValidate="ngModel" maxlength="60" (focusout)="validarLogin()">
+      <div  *ngIf="loginError" class="alert alert-danger box-msg" role="alert">
+        <strong>Ooops!</strong> {{messageError}}
+      </div>
     </div>
   </div>
-
 
   <div class="form-row">
     <div class="form-group col-md-5">
       <label for="senha">Senha</label>
-      <input type="password" class="form-control" [(ngModel)]="usuario.senha" id="senha" required="true" name="senha" autocomplete="false" required="true" #senhaValidate="ngModel">
       <span class="mandatory" *ngIf="senhaValidate.invalid"> * </span>
+      <input type="password" class="form-control" [(ngModel)]="usuario.senha" id="senha" required="true" name="senha" autocomplete="false" required="true" #senhaValidate="ngModel" maxlength="60">
     </div>
     <div class="form-group col-md-5">
       <label for="cpf">CPF</label>
-      <input type="text" class="form-control" [(ngModel)]="usuario.cpf" id="cpf" required="true" name="cpf" autocomplete="false" required="true" #cpfValidate="ngModel" mask="000.000.000-00">
       <span class="mandatory" *ngIf="cpfValidate.invalid"> * </span>
+      <input type="text" class="form-control" [(ngModel)]="usuario.cpf" id="cpf" required="true" name="cpf" autocomplete="false" required="true" #cpfValidate="ngModel" mask="000.000.000-00"
+      (focusout)="validarCPF()" maxlength="60">
+      <div  *ngIf="cpfError" class="alert alert-danger box-msg" role="alert">
+        <strong>Ooops!</strong> {{messageError}}
+      </div>
     </div>
+
   </div>
 
   <div class="form-row">
     <div class="form-group col-md-5">
       <label for="cep">CEP</label>
-      <input type="text" class="form-control" id="cep" [(ngModel)]="usuario.cep" required="true" name="cep" autocomplete="false" required="true" #cepValidate="ngModel" mask="00000-000">
       <span class="mandatory" *ngIf="cepValidate.invalid"> * </span>
+      <input type="text" class="form-control" id="cep" [(ngModel)]="usuario.cep" required="true" name="cep" autocomplete="false" required="true" #cepValidate="ngModel" mask="00000-000" (focusout)="validarCEP()">
+      <div  *ngIf="cepError" class="alert alert-danger box-msg" role="alert">
+        <strong>Ooops!</strong> {{messageError}}
+      </div>
     </div>
 
     <div class="form-group col-md-2">
         <label for="dataNascimento"> Data de Nasc.</label>
-        <span class="mandatory" *ngIf=""> * </span>
+        <span class="mandatory" *ngIf="dataNascimentoValidate.invalid"> * </span>
         <div class="input-group">
           <input name="dataNascimento" type="text"  class="form-control" placeholder="dd/mm/yyyy"
           ngbDatepicker #dataNascimento="ngbDatepicker" [(ngModel)] = "usuario.dataNascimento"
-          #dataNascimentoValidate="ngModel" id="dataNascimento" required="true"/>
-        <div class="input-group-append">
-          <button class="btn btn-primary" (click)="dataNascimento.toggle()" type="button"></button>
+          #dataNascimentoValidate="ngModel" id="dataNascimento" required="true" maxlength="10" />
+            <div class="input-group-append">
+                <button class="btn btn-primary" (click)="dataNascimento.toggle()" type="button"></button>
+            </div>
         </div>
-        </div>
-        <span class="mandatory" *ngIf="dataNascimentoValidate.invalid"> * </span>
     </div>
 
-    <div class="form-group col-md-3">
-      <label for="profissao">Profissão</label>
-      <span class="mandatory" *ngIf="profissaoValidate.invalid"> * </span>
-      <select [(ngModel)]="usuario.profissao.id" id="profissao" name="profissao"
-      #profissaoValidate="ngModel" class="form-control" required="true">
-        <option [ngValue]="profissao.id" *ngFor="let profissao of profissoes">{{profissao.descricao}}</option>
-      </select>
-    </div>
   </div>
 
   <div class="form-row">
-    <div class="form-group col-md-2">
+    <div class="form-group col-md-3">
       <label for="salario">Salário</label>
       <span class="mandatory" *ngIf="salarioValidate.invalid"> * </span>
-      <input type="text" class="form-control" id="salario" [(ngModel)]="usuario.salario" name="salario" #salarioValidate="ngModel"autocomplete="false" currencyMask [options]="{prefix : 'R$', thousands: '.', decimal: ',' }">
+      <input type="text" class="form-control" id="salario" [(ngModel)]="usuario.salario" required="true" name="salario" #salarioValidate="ngModel" autocomplete="false" currencyMask [options]="{prefix : 'R$', thousands: '.', decimal: ',' }">
     </div>
-
-
   </div>
+
+
+
+
+<div class="form-row">
+  <div class="form-group col-md-3">
+    <label for="profissao">Profissão</label>
+    <span style="color: red; font-size: 23px;" *ngIf="profissaoValidate.invalid"> *</span>
+    <select [(ngModel)]="usuario.profissao.id" id="profissao" name="profissao"
+      #profissaoValidate="ngModel" class="form-control" required="true">
+      <option [ngValue]="p.id" *ngFor="let p of profissoes">{{p.descricao}}</option>
+    </select>
+  </div>
+</div>
 
 
 
@@ -91,6 +111,7 @@
   [(ngModel)]="telefone.numero" id="numero" name="numero">
   <button type="button" class="botoes btn btn-primary" (click)="addFone()">Adicionar</button>
 </div>
+
 
 
   <table class="table tabelaTelefones"  style="max-width: 100%">
@@ -120,5 +141,4 @@
   </div>
 </div>
 </form>
-
 

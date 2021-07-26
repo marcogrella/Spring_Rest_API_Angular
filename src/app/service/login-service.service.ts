@@ -1,5 +1,4 @@
 import { Usuario } from 'src/app/model/usuario';
-import { Validators } from '@angular/forms';
 import { AppConstants } from './../app-constants';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -16,7 +15,7 @@ export class LoginServiceService {
   login(usuario) {
 
     console.log("Nome: " + usuario.login +" Senha: "+  usuario.senha)
-
+    console.log(AppConstants.baseLogin)
     return this.http.post(AppConstants.baseLogin, JSON.stringify(usuario)).subscribe(data => {
 
       /*Retorno Http*/

@@ -45,7 +45,6 @@ export const optionsMask : Partial<IConfig> | (() => Partial<IConfig>) = {};
     UsuarioComponent,
     UsuarioAddComponent,
     BarChartComponent,
-
   ],
 
   imports: [
@@ -61,8 +60,6 @@ export const optionsMask : Partial<IConfig> | (() => Partial<IConfig>) = {};
     NgbModule,
     NgxCurrencyModule,
     ChartsModule
-
-
     ],
   providers: [],
   bootstrap: [AppComponent]

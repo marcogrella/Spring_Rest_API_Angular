@@ -16,7 +16,7 @@ export class AppComponent implements OnInit{
 
   /* implementamos o onInit que verifica logo na página inicial se o usuário possui ou não token. Se não redireciona para o login */
   ngOnInit(): void {
-    if(localStorage.getItem('token') ==null ){
+    if(localStorage.getItem('token') == null ){
         this.router.navigate(['login']);
     }
   }

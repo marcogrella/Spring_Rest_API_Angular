@@ -1,9 +1,6 @@
-
 import { UsuarioService } from './../../../service/usuario.service';
-import { Observable, of } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from 'src/app/model/usuario';
-import { isEmpty } from 'rxjs/operators';
 
 
 @Component({
@@ -15,7 +12,6 @@ export class UsuarioComponent implements OnInit {
 
   public students!: Array<Usuario> /* anterior (sem paginação) */
 
-  
   nome! : string;
 
   p!: number;

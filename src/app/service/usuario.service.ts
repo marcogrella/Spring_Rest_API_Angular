@@ -1,10 +1,8 @@
-import { AppComponent } from './../app.component';
-import { Usuario } from 'src/app/model/usuario';
 import { AppConstants } from './../app-constants';
-import { Observable, Observer } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
+import { cpf } from 'cpf-cnpj-validator';
 
 /* Esta classe faz a requisição para o back end para caregar os usuários. */
 
@@ -75,6 +73,26 @@ export class UsuarioService {
   carregarGrafico() : Observable<any> {
     return this.http.get(AppConstants.baseUrl+'grafico')
   }
+
+
+  consultaCep(cep: String): Observable<any>{
+    return this.http.get(AppConstants.getConsultarCep()+'cep/'+cep)
+  }
+
+
+
+  testaCPF(numeroCPF: string): boolean{
+    if(cpf.isValid(numeroCPF)){
+      return true;
+    } else{
+      return false;
+    }
+
+}
+
+verificarLogin(login: String): Observable<any>{
+    return this.http.get(AppConstants.getConsultarLogin()+'logincheck/'+login)
+}
 
 
 }

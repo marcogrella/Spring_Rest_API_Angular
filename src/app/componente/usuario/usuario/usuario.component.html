@@ -2,7 +2,7 @@
 <br/>
 <form class="form-inline mr-sm-0">
   <input class="form-control mr-sm-2" type="text" id="nome" name="nome" [(ngModel)]="nome" placeholder="Digite um nome"
-  required="true" autocomplete="false" #nameValidate="ngModel">
+  required="true" autocomplete="false" #nameValidate="ngModel" maxlength="30">
   <button type="button" (click)="consultarUser()"  class="btn btn-primary" >Consultar</button>
   <button class="button-cadastrar btn btn-success" type="button" [routerLink]="['/usuarioAdd']" routerLinkActive="router-link-active">Cadastrar</button>
 </form>
